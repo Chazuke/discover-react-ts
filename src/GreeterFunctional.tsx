@@ -1,10 +1,14 @@
 import React from 'react';
 
+interface GreeterFunctionalProps {
+    company: string;
+    greeting: string;
+}
 
-const GreeterFunctional = () => {
+const GreeterFunctional = ({company, greeting}: GreeterFunctionalProps,) => {
     return (
         <section>
-            <h1>GreeterFunctional: Hello</h1>
+            <h1>GreeterFunctional: {greeting} from {company}</h1>
         </section>
     )
 }

@@ -1,4 +1,4 @@
-import React, { GetDerivedStateFromError } from 'react';
+import React from 'react';
 
 class GreeterClass extends React.Component {
 
