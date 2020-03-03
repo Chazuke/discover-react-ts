@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import GreeterFunctional from './GreeterFunctional'
+import GreeterClass from './GreeterClass';
 
 function App() {
   return (
@@ -19,6 +21,10 @@ function App() {
           Learn React
         </a>
       </header>
+      <body>
+        <GreeterFunctional />
+        <GreeterClass />
+      </body>
     </div>
   );
 }
