@@ -1,0 +1,4 @@
+node.js is js tooling, has the hooks to run js on the various OS; webserver light, weight data server
+npx create-react-app some-project-name --template typescript
+npm install, install dependencies for the react app making them available for the application
+{/* */} <-- comment section to be returned with HTML and will be stripped. Regular HTML comments can be used but will be embedded in the HTML served to the client
