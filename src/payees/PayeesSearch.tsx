@@ -8,9 +8,9 @@ const PayeesSearch = ({searchPayees}: PayeesSearchProps) => {
 
     const [searchText, setSearchText] = useState('');
 
-    const handleButton = () => {
-        console.log('You clicked mah button >:(');
+    const handleButton = (event: React.MouseEvent<HTMLButtonElement>) => {
         searchPayees(searchText);
+        //TODO: Redirect to /payees/list
     };
 
     const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -18,9 +18,9 @@ const PayeesSearch = ({searchPayees}: PayeesSearchProps) => {
     }
 
     return (
-        <div>
-            <label htmlFor="searchPayeeName">Payee Name:</label>
-            <input type="text" id="searchPayeeName" onChange={handleInput} value={searchText}/>
+        <div id="searchBar">
+            <label id="searchBarLabel" htmlFor="searchInputText">Payee Name:</label>
+            <input type="text" id="searchInputText" onChange={handleInput} value={searchText}/>
             <button type="button" onClick={handleButton} >Search!</button>
         </div>
     )

@@ -8,7 +8,7 @@ interface GreeterFunctionalProps {
 const GreeterFunctional = ({company, greeting}: GreeterFunctionalProps,) => {
     return (
         <section>
-            <h1>GreeterFunctional: {greeting} from {company}</h1>
+            <h1>{greeting} from {company}</h1>
         </section>
     )
 }

@@ -1,5 +1,21 @@
-function getPayees() {
+async function getPayees() {
     return fetch("http://localhost:8000/api/v1/banking/payees")
+    .then((response) => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            //Handle status of >= 400
+            return Promise.reject({
+                message: 'Bad status',
+                status: response.status
+            });
+        }
+    })
+    .catch(handleError);
+}
+
+async function searchPayeesByField(searchField: string, searchValue: string) {
+    return fetch("http://localhost:8000/api/v1/banking/payees?" + searchField + "=" + searchValue)
     .then((response) => {
         if (response.ok) {
             return response.json();
@@ -26,7 +42,8 @@ function handleError(error: any) {
 }
 
 const dao = {
-    getPayees
+    getPayees,
+    searchPayeesByField
 };
 
 export default dao;
