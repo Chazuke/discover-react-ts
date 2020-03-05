@@ -1,5 +1,6 @@
 import React from 'react';
 import { ColumnConfig, Payee } from './payee-types';
+import * as lodash from 'lodash';
 
 interface PayeesListProps {
   columns: ColumnConfig[];
@@ -11,18 +12,21 @@ interface PayeesListProps {
 const PayeesList = ({ payees, columns }: PayeesListProps) => {
   return (
     <table className="table is-striped is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          {columns.map(({ field, label }) => (
+            <th key={field}>{label}</th>
+          ))}
+        </tr>
+      </thead>
       <tbody>
-        {payees.map(payee => {
-          return (
-            <tr key={payee.id}>
-              {columns.map(column => {
-                return (
-                  <td key={column.field}>{payee[column.field].toString()}</td>
-                );
-              })}
-            </tr>
-          );
-        })}
+        {payees.map(payee => (
+          <tr key={payee.id}>
+            {columns.map(column => (
+              <td key={column.field}>{lodash.get(payee, column.field) + ''}</td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );
