@@ -1,25 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react'
-import { Switch, Route, NavLink, Redirect } from 'react-router-dom'
+import { Switch, Route, NavLink, Redirect, useHistory } from 'react-router-dom'
 import PayeesSearch from './PayeesSearch'
 import PayeesDao from './PayeesDAO'
 import PayeesList from './PayeesList'
-import { PayeesListColumnConfig } from './PayeeTypes'
+import { Payee, PayeesListColumnConfig } from './PayeeTypes'
 
 const PayeesManager = () => {
-    //const [payeesList, setPayeesList] = useState([]);
+    const [payeesList, setPayeesList] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         PayeesDao.getPayees().then(payeesList => {
-            //setPayeesList(payeesList);
+            setPayeesList(payeesList);
             setSearchResults(payeesList);
         });
     }, []);
 
     const searchPayees = (input: string) => {
         console.log("Searching for payee name: " + input);
-        PayeesDao.searchPayeesByField("payeeName", input).then(searchResults => setSearchResults(searchResults));
+        setSearchResults(payeesList.filter((payee: Payee) => {
+            if (input === '') {
+                return true;
+            } else return payee.payeeName.toUpperCase().includes(input.toUpperCase())
+        }));
+        history.push("/payees/list");
     }
 
     const selectHeader = (headerConfig: PayeesListColumnConfig) => {
