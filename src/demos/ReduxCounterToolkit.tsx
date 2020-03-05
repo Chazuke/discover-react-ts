@@ -1,42 +1,31 @@
 import React from 'react';
-import { AnyAction, createStore, Dispatch } from 'redux';
+import { createSlice, configureStore } from '@reduxjs/toolkit';
 import { Provider, connect } from 'react-redux';
 
 const initialState = {
   counter: 0,
 };
 
-// Action generators
-const increment = () => ({
-  type: 'INCREMENT',
-});
-
-const decrement = () => ({
-  type: 'DECREMENT',
-});
-
-const add = (amount: number) => ({
-  type: 'ADD',
-  payload: {
-    amount,
+const slice = createSlice({
+  name: 'counter',
+  initialState: 0,
+  reducers: {
+    increment: {
+      reducer: state => state + 1,
+      prepare: () => ({ payload: null }),
+    },
+    decrement: state => state - 1,
   },
 });
 
-// Reducer
-const reducer = (state = { counter: 0 }, action: AnyAction) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return { ...state, counter: state.counter + 1 };
-    case 'DECREMENT':
-      return { ...state, counter: state.counter - 1 };
-    case 'ADD':
-      return { ...state, counter: state.counter + action.payload.amount };
-    default:
-      return state;
-  }
-};
+const { actions, reducer } = slice;
+const { decrement, increment } = actions;
 
-const store = createStore(reducer, initialState);
+const store = configureStore({
+  reducer: {
+    counter: slice.reducer,
+  },
+});
 
 // End of Redux and store setup
 
@@ -60,7 +49,7 @@ function Counter({ value, increment, decrement }: CounterProps) {
           Counter: <span>{value}</span>
         </p>
         <div className="buttons">
-          <button className="button" onClick={decrement}>
+          <button className="button" onClick={() => decrement()}>
             Decrement
           </button>
           <button className="button" onClick={increment}>
@@ -72,24 +61,19 @@ function Counter({ value, increment, decrement }: CounterProps) {
   );
 }
 
-const mapStateToProps = (state: {counter: number}) => ({
+const mapStateToProps = (state: { counter: number }) => ({
   value: state.counter,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  increment: () => dispatch(increment()),
-  decrement: () => dispatch(decrement()),
-});
-
 // Map an object instead of a function which returns an object
-const betterMapDispatchToProps = {
+const mapDispatchToProps = {
   // event: actionCreator
   increment,
-  decrement
+  decrement,
 };
 
 // Create a higher-order component (HOC) ready to plug into a store
-const ConnectedCounter = connect(mapStateToProps, betterMapDispatchToProps)(Counter);
+const ConnectedCounter = connect(mapStateToProps, mapDispatchToProps)(Counter);
 
 // Use the HOC as a descendant of Provider
 function ReduxCounter() {
